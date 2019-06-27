@@ -14,7 +14,7 @@ struct bitmap
 	uint8_t map[5];
 };
 typedef struct bitmap Bitmap;
-
+//Below are the declarations of the different letters
 const Bitmap space = {{
 	0b0,
 	0b0,
@@ -233,26 +233,6 @@ int main(void){
 	DDRC |= 0b00011111;
 	DDRD |= 0b11111000;
 	uint32_t offset = 0; 
-	//	init_clock();
-	//while (1)
-	/*{
-        test(L, leftix(24, 10) == 4);
-        test(O, leftix(50, 10) == 0);
-        test(E, leftix(0, 10)  == 0);
-		test(L, rightix(24, 10) == 5);
-        test(O, rightix(49, 10) == 0);
-        test(E, rightix(0, 10)  == 1);
-		Bitmap outl, outr;
-		leftChar(&O,&outr,1);
-		test(O, bitmapEqual(&outl, &O1));	
-		rightChar(&O,&outl,4);
-		test(O, bitmapEqual(&outr, &O2));
-		Bitmap overlayed;
-		overlay(&O1, &O2, &overlayed);
-		test(O, bitmapEqual(&overlayed, &overlayExpectation));
-		
-		}*/
-	
 	long int t = 0;
 	while(1){
 		if (offset < t / 3500)
@@ -264,24 +244,6 @@ int main(void){
 		t++;
 	}
 }
-
-/*
-void init_clock(){
-	//Put timer0  out of power saving mode
-	PRR |= (1<<PRTIM0);
-
-	//Setting prescaler to 64 and clock to clkI/O
-	TCCR0B &= ~(3);
-	TCCR2B |= 0X2;
-	//Initialize TCNT2
-	TCNT2 = 0;
-	PRR &= (1<<PRTIM0);
-	//Set clock to system clock, CS0[2:0]=0x;
-	TCCR1B &= ~(9<<CS00);
-	TCCR0B |= 0b011;
-	//Initialize clock counter
-	TCNT0 = 0;
-}*/
 
 uint8_t bitmapEqual(Bitmap* a, Bitmap* b)
 {
@@ -316,15 +278,6 @@ void showBitmap(Bitmap b, int t){
 		t2--;
 	}
 }
-
-/*void  shift(Bitmap* in1, Bitmap* in2, Bitmap* out, uint8_t left_shift ){
-	for(int row = 4; row >= 0; --row){
-		out->map[row] = ((in1->map[row] << left_shift) | (in2->map[row] >> (5 - left_shift)));
-		
-	}
-	return out;
-}*/
-
 
 void renderText(Bitmap* string[], uint32_t offset, Bitmap* fb, uint8_t length){
 	Bitmap outl, outr;
@@ -367,8 +320,6 @@ void fbreset(Bitmap* fb){
 }
 
 void light(Bitmap* b){
-	//This for loop will iterate through the map
-	//PORTD = 255;
 	uint8_t PORTDB, PORTCB;
 	for (int row = 4; row >= 0; --row){ 
 			PORTDB = (~(b->map[row])<<PORTD3);
@@ -376,4 +327,5 @@ void light(Bitmap* b){
 			PORTC = PORTCB;
 			PORTD = PORTDB;
 	}
+	
 } 
